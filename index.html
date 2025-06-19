@@ -1,6 +1,107 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <text>My Github</text>
+        <meta charset = "UTF-8">
+        <title>HTML Page</title>
     </head>
+
+    <body>
+        <table id="MyTable" border = "1">
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Phone number</td>
+                    <td>Rating</td>
+                    <td>eligible</td>
+                </tr>
+            </thead>
+        </table>
+        <form onsubmit="handle(event)" id="form">
+       <h1>Feedback form</h1><br>
+       <label for="Name">Name</label>
+       <input type="text" id = "Name" placeholder="Name"  ><br><br>
+       <label for="number">Phone Number</label>
+       <input type="text" id="number" placeholder="Phone Number"  ><br><br>
+       <label for="stars">Rate us</label>
+       <select name="rate" id="stars"  >
+        <option value="1">*</option>
+        <option value="2">* *</option>
+        <option value="3">* * *</option>
+        <option value="4">* * * *</option>
+        <option value="5">* * * * *</option>
+       </select><br><br>
+       <label for="">Selected course</label><br><br>
+       <input type="radio" name = "rate" id = "mern" value="Mern"  > <label for="mern">Mern</label>
+       <input type="radio" name = "rate" id = "java" value="Java"  > <label for="java">Java</label>
+       <input type="radio" name = "rate" id = "python" value="Python" > <label for="python">Python</label><br>
+       <label for="">Skills</label><br>
+       <input type="checkbox" id="communication" name = "skill" value ="Communication"> <label for="communication">Communication</label><br>
+       <input type="checkbox" id="Aptitude" name = "skill" value ="Aptitude"> <label for="Aptitude">Aptitude</label><br>
+       <input type="checkbox" id="No skills" name = "skill" value = "No skills"> <label for="No skills">No skills</label><br>
+       <label for="">Comments</label>
+       <textarea></textarea><br>
+       <button type = "submit">Submit</button><br>
+
+       <button type = "button" onclick="decrease()">-1</button>
+       <span id="countDisplay">0</span>
+       <button type="button" onclick="increase()">+1</button>
+       </form>
+       <script>
+        let count=0
+        function decrease(){
+            if(count==0){
+                count=0
+            }else{
+                count--
+            }
+            countDisplay.innerText = count
+        }
+        function increase(){
+       // alert("plus")
+                count++
+            
+            countDisplay.innerText = count
+        }
+          function handle(event){
+            event.preventDefault()
+            const name = document.getElementById("Name").value
+            const num = document.getElementById("number").value
+            const rating = document.getElementById("stars").value
+            const course = document.querySelector("input[name='rate']:checked").value
+            const skills = document.querySelectorAll("input[name='skill']:checked")
+            console.log(skills)
+            const selectedSkills = []
+            for(let i=0; i<skills.length; i++){
+                selectedSkills.push(skills[i].value)
+            }
+            const obj ={
+                name,
+                num,
+                rating,
+                course,
+                skill : selectedSkills
+        }
+        const table = document.getElementById("MyTable")
+        // const row = table.insertRow()
+        // const col1 = row.insertCell(0)
+        // const col2 = row.insertCell(1)
+        // const col3 = row.insertCell(2)
+        // const col4 = row.insertCell(3)
+        // col1.innerText = name
+        // col2.innerText = num
+        // col3.innerText = rating
+        // col4.innerText = selectedSkills.some(item=>item==="Aptitude")
+        function isEligible(){
+           return selectedSkills.some(item=>item==="Aptitude")
+        }
+
+        const newRow = table.insertRow()
+        newRow.innerHTML = `<td>${name}</td><td>${num}</td><td>${rating}</td><td>${isEligible()}</td>`
+            //console.log(name,num,rating,course)
+            console.log(obj)
+            const form = document.getElementById("form")
+            form.reset()
+          }
+       </script>
+    </body>
 </html>
